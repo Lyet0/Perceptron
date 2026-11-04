@@ -1,11 +1,11 @@
-objet *rechercher_objet(char *nom)
 {
+	if (bj==NULL){return NULL;}
 	objet *bj=obj; 
-	while (bj->nom!=nom) {
-		bj=bj->next; 
-		if (bj==NULL){
+	while (objet->nom!=nom) {
+		objet=objet->next; 
+		if (objet==NULL){
 			return 0;
 		}
 	}
-	return bj;
+	return objet;
 }

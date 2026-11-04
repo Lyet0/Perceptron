@@ -117,24 +117,104 @@ objet *creer_objet(char *nom, unsigned short auteur, unsigned int taille,
 
 int supprimer_objet(char *nom)
 {
-	//a completer 
+	/* recherche de l'objet à supprimer */
+	objet *obj_sup = rechercher_objet(nom);
+	if(obj_sup == NULL){
+		return 0;
+	}
+
+	/* on libère les blocks occupés par l'objet à supprimer */
+	unsigned short i = FAT[obj_sup->index];
+	while(i != END){
+		FAT[obj_sup->index] = FREE; freeblocks += 1;
+		obj_sup->index = i;
+		i = FAT[obj_sup->index];
+	}
+	FAT[(*obj_sup).index] = FREE; freeblocks += 1;
+
+	/* on redirige l'objet précédent vers l'objet suivant notre objet à supprimer*/
+	objet *obj_pre = obj;
+	if(strcmp(obj->nom, obj_sup->nom) != 0){
+		while (strcmp((obj_pre->next)->nom, obj_sup->nom) != 0) {
+			obj_pre = obj_pre->next;
+		}
+		obj_pre->next = obj_sup->next;
+	}
+	else{
+		obj = obj_sup->next;
+	}
+	free(obj_sup);
+
 	return 1;
 }
 
 /***********************************************************/
 void supprimer_tout()
 {
-	// a completer 
+	while((*obj).next != NULL){
+		/* on remplace l'objet actuel par le suivant */
+		objet *obj_suiv = (*(*obj).next).next;
+		free((*obj).next);
+		(*obj).next = obj_suiv;
+	}
+	/* on libère tous les blocks */
+	initialiser_fat();
 }
 
 int main()
 {
-	char data1[1000];
-	for (int i =0; i<1000;i++){
-		data1[i]='u';
-	}
 	initialiser_fat();
-	afficher_objet(creer_objet("ok", 12, 1000, data1));
-	afficher_objet(creer_objet("okd",12,1000,data1));
+	char data1[2000]; char data2[1000]; char data3[3000]; char data4[1000]; 
+	for(int i = 0; i < 2000; i++){
+		data1[i] = 'h';
+	}
+	for(int i = 0; i < 1000; i++){
+		data2[i] = 'e';
+	}
+	for(int i = 0; i < 3000; i++){
+		data3[i] = 'l';
+	}
+	for(int i = 0; i < 1000; i++){
+		data4[i] = 'o';
+	}
+
+	objet *obj1 = creer_objet("fichier1", 12, 2000, data1);
+	objet *obj2 = creer_objet("fichier2", 43, 1000, data2);
+	afficher_objet(obj1);
+	afficher_objet(obj2);
+
+	afficher_objet(rechercher_objet("fichier2"));
+
+	supprimer_objet("fichier1");
+
+	for(int i = 0; i < 20; i++){
+		printf("%d ; ", FAT[i]);
+	}
+	printf("\n");
+
+	objet *obj3 = creer_objet("fichier3", 25, 3000, data3);
+	afficher_objet(obj3);
+	objet *obj4 = creer_objet("fichier4", 2, 1000, data4);
+	afficher_objet(obj4);
+
+	for(int i = 0; i < 20; i++){
+		printf("%d ; ", FAT[i]);
+	}
+	printf("\n");
+
+	supprimer_objet("fichier3");
+
+	for(int i = 0; i < 20; i++){
+		printf("%d ; ", FAT[i]);
+	}
+	printf("\n");
+
+	supprimer_tout();
+
+	for(int i = 0; i < 20; i++){
+		printf("%d ; ", FAT[i]);
+	}
+	printf("\n");
+
 	return EXIT_SUCCESS;
 }

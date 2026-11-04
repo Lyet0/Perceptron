@@ -1,9 +1,9 @@
 objet *creer_objet(char *nom, unsigned short auteur, unsigned int taille,
 		   char *data)
 {
-	if (rechercher_objet(nom)==NULL){
+	if (rechercher_objet(nom)==NULL&&freeblocks>=taille/BLOCSIZE +1){
 		objet *bj=obj;
-		objet *noeud=malloc(sizeof(objet)&&freeblocks<=taille/BLOCSIZE +1);
+		objet *noeud=malloc(sizeof(objet));
 		if (bj!=NULL){
 			while (bj->next!=NULL){
 				bj=bj->next;
@@ -22,12 +22,12 @@ objet *creer_objet(char *nom, unsigned short auteur, unsigned int taille,
 
 		for (int i =0; i<BLOCNUM; i++) {
 			if (FAT[i]==FREE){
-						printf("b");
-
 				if (taille_s>=taille){
 					FAT[indicepres]=i; 
 					FAT[i]=END;
-					return bj; 
+					freeblocks--;
+					noeud->next=NULL,
+					return noeud; 
 				}
 				if (indicepres==-1){
 					noeud->index=i;
@@ -40,6 +40,7 @@ objet *creer_objet(char *nom, unsigned short auteur, unsigned int taille,
 					volume[i*BLOCSIZE+j]= data[taille_s];
 					j++; taille_s++;
 				}
+				freeblocks--;
 				}
 			}
 		}

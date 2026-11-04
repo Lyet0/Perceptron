@@ -26,7 +26,7 @@ objet *creer_objet(char *nom, unsigned short auteur, unsigned int taille,
 					FAT[indicepres]=i; 
 					FAT[i]=END;
 					freeblocks--;
-					noeud->next=NULL,
+					noeud->next=NULL;
 					return noeud; 
 				}
 				if (indicepres==-1){

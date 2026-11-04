@@ -1,42 +1,36 @@
-{
-	if (bj==NULL){return NULL;}
-	objet *bj=obj; 
-	while (objet->nom!=nom) {
-		objet=objet->next; 
-		if (objet==NULL){
-			return 0;
-		}
-	}
-	return objet;
-}
 objet *creer_objet(char *nom, unsigned short auteur, unsigned int taille,
 		   char *data)
 {
-	if (rechercher_objet(nom)==NULL&&freeblocks<=taille/BLOCSIZE +1){
+	if (rechercher_objet(nom)==NULL){
 		objet *bj=obj;
+		objet *noeud=malloc(sizeof(objet)&&freeblocks<=taille/BLOCSIZE +1);
 		if (bj!=NULL){
 			while (bj->next!=NULL){
 				bj=bj->next;
 			}
-			bj->next=malloc(sizeof(objet));
+			bj->next=noeud;
 		}
 		else{
-			bj=malloc(sizeof(objet));
+			bj=noeud;
+			obj=noeud;
 		}
-		strcpy(bj->nom,nom); 
-		bj->taille=taille; 
-		bj->auteur=auteur; 
+		strcpy(noeud->nom,nom); 
+		noeud->taille=taille; 
+		noeud->auteur=auteur; 
 		int indicepres=-1;
 		unsigned int taille_s = 0; 
+
 		for (int i =0; i<BLOCNUM; i++) {
 			if (FAT[i]==FREE){
-				if (taille_s==taille){
+						printf("b");
+
+				if (taille_s>=taille){
 					FAT[indicepres]=i; 
 					FAT[i]=END;
 					return bj; 
 				}
 				if (indicepres==-1){
-					bj->index=i;
+					noeud->index=i;
 					indicepres=i;}
 				else {
 					FAT[indicepres]=i;

@@ -13,4 +13,4 @@ test.o: src/test.c include/dataset.h include/perceptron.h
 clean : 
 	rm -f *.o perceptron test
 valgrind : 
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./test
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./test data/champignons.csv

@@ -44,3 +44,20 @@ void maj_perceptron(struct perceptron *perce, double *x, int*label){
         perce->b+=perce->lr*(label[i]-y);
     }   
 }
+
+double accuracy(double *classements, struct dataset *d){
+    double s = 0;
+    for(int i = 0; i < d->n; i++){
+        if(classements[i] >= 0.5){
+            if(d->labels[i] == 1){
+                s += 1;
+            }
+        }
+        else{
+            if(d->labels[i] == 0){
+                s += 1;
+            }
+        }
+    }
+    return s/n;
+}

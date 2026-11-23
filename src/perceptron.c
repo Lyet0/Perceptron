@@ -37,4 +37,10 @@ double prediction(struct perceptron* perce, double* x ){
     z=sig(z);
     return z;
 }
-
+void maj_perceptron(struct perceptron *perce, double *x, int*label){
+    double y=prediction(perce,x);
+    for (int i=0; i<perce->dim;i++){
+        perce->poids[i]+= perce->lr*(label[i]-y)*x[i];
+        perce->b+=perce->lr*(label[i]-y);
+    }   
+}

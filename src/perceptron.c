@@ -27,4 +27,14 @@ void liberation_perceptron(struct perceptron* del){
 double sig(double z){
     return (1/(1+exp(-z))); 
 }
-double prediction(struct dataset* perce, double* x );
+double prediction(struct perceptron* perce, double* x ){
+    int d=perce->dim;
+    double z=0; 
+    for (int i = 0; i<d;i++){
+        z=x[i]*(perce->poids[i]);
+    }
+    z+=perce->b;
+    z=sig(z);
+    return z;
+}
+

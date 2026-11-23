@@ -8,5 +8,6 @@ struct perceptron {
 };
 void liberation_perceptron(struct perceptron* del);
 struct perceptron *creation_perceptron(float lr,int dim);
+double prediction(struct perceptron* perce, double* x );
 
 #endif

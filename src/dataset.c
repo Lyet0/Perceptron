@@ -72,7 +72,6 @@ struct dataset *charge_dataset(char* source){
             }
             else{
                 s1->labels[i] = (int)nombre;
-                printf("%f %d\n", nombre, (int)nombre);
             }
         }
     }

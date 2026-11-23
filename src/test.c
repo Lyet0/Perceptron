@@ -23,21 +23,10 @@ int main (){
             d_20->labels[i - d_80->n] = d->labels[i];
         }
     }
-    printf("\n\n\n");
-    for(int i = 0; i < d_80->n; i++){
-        for(int j = 0; j < d_80->dim; j++){
-            printf("%f, ", d_80->caracteristiques[i][j]);
-        }
-        printf("   %d\n", d_80->labels[i]);
-    }
-    printf("\n\n\n");
-    for(int i = 0; i < d_20->n; i++){
-        for(int j = 0; j < d_20->dim; j++){
-            printf("%f, ", d_20->caracteristiques[i][j]);
-        }
-        printf("   %d\n", d_20->labels[i]);
-    }
-    printf("\n\n\n");
+    afficher_dataset(d_80);
+    afficher_dataset(d_20);
+
+    shuffle(d_80);
 
     liberation_dataset(d); liberation_dataset(d_20); liberation_dataset(d_80);
     return 0; 

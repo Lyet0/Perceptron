@@ -79,3 +79,22 @@ struct dataset *charge_dataset(char* source){
     return s1;
 }
 
+void shuffle(struct dataset *d){
+    int r; double *tmp1; int tmp2;
+    for(int i = d->n - 1; i >= 0; i--){
+        r = rand() % (i + 1);
+        tmp1 = d->caracteristiques[i]; tmp2 = d->labels[i];
+        d->caracteristiques[i] = d->caracteristiques[r]; d->labels[i] = d->labels[r];
+        d->caracteristiques[r] = tmp1; d->labels[r] = tmp2;
+    }
+}
+
+void afficher_dataset(struct dataset *d){
+    for(int i = 0; i < d->n; i++){
+        for(int j = 0; j < d->dim; j++){
+            printf("%f, ", d->caracteristiques[i][j]);
+        }
+        printf("   %d\n", d->labels[i]);
+    }
+    printf("\n\n\n");
+}

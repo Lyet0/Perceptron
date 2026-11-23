@@ -8,5 +8,5 @@ struct dataset {
 };
 struct dataset *creation_dataset(int n,int dim);
 void liberation_dataset(struct dataset* del);
-struct dataset *charge_dataset(const char *source);
+struct dataset *charge_dataset(char *source);
 #endif

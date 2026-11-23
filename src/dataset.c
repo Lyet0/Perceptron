@@ -45,7 +45,7 @@ struct dataset *charge_dataset(char* source){
         fprintf(stderr,"error opening file\n");
         exit(EXIT_FAILURE);
     }
-    int dim = 1; int n = 1; 
+    int dim = 0; int n = 1; 
     int c = fgetc(f);
     while(c != EOF){
         if((c == ',') && (n <= 1)){      // compte le nombre de virgules de la premiere ligne (ce qui correspond au nombre de colonnes -1)
@@ -60,14 +60,20 @@ struct dataset *charge_dataset(char* source){
     double nombre = 0; double c_db = 0;
     rewind(f);
     for(int i = 0; i < n; i++){
-        for(int j = 0; j < dim; j++){
+        for(int j = 0; j <= dim; j++){
             nombre = 0;
             c = fgetc(f); c_db = (double)(c - '0');
             while((c != ',') && (c != '\n') && (c != EOF)){
                 nombre = nombre * 10 + c_db;
                 c = fgetc(f); c_db = (double)(c - '0');
             }
-            s1->caracteristiques[i][j] = nombre;
+            if(j < dim){
+                s1->caracteristiques[i][j] = nombre;
+            }
+            else{
+                s1->labels[i] = (int)nombre;
+                printf("%f %d\n", nombre, (int)nombre);
+            }
         }
     }
     fclose(f);
